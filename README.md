@@ -1,0 +1,1 @@
+This is a simpe web notepad with programming languages support.
