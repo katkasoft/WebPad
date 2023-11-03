@@ -1,7 +1,11 @@
+body {
+    overflow: hidden;
+}
+
 #editor {
     width: 100vw;
     height: 100vh;
-    display: block;
+    display: inline-block;
 }
 
 header {
@@ -34,4 +38,15 @@ header *:not(hr) {
     padding: 1px;
     background-color: #323232;
     border: 2px #323232 solid;
+}
+
+iframe {
+    height: 100vh;
+    width: 40vw;
+    border: none;
+    background-color: #fff;
+}
+
+main * {
+    display: inline-block;
 }

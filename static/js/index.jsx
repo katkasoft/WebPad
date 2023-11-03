@@ -1,4 +1,3 @@
-const root = ReactDOM.createRoot(document.getElementById('app'))
 var editor
 
 function getCookie(cname) {
@@ -6,13 +5,13 @@ function getCookie(cname) {
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
     for(let i = 0; i <ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
     }
     return "";
 }
@@ -66,7 +65,21 @@ class Header extends React.Component {
     }
     changelang() {
         var lang = document.getElementById('lang').value
+        var editorview = document.getElementById('editor')
         editor.session.setMode("ace/mode/" + lang);
+        if (lang == 'html') {
+            const iframe = ReactDOM.createRoot(document.getElementById('iframe'))
+            iframe.render(
+                <iframe></iframe>
+            )
+            editorview.style.width = '60vw'
+            setInterval(() => {
+                document.querySelector('iframe').srcdoc = editor.getValue()
+            }, 1000)
+        } else {
+            document.querySelector('iframe').remove()
+            editorview.style.width = '100vw'
+        }
     }
     render() {
         return (
@@ -130,7 +143,12 @@ class Header extends React.Component {
 
 class Editor extends React.Component {
     render() {
-        return <pre id="editor"></pre>
+        return (
+            <main>
+                <pre id="editor"></pre>
+                <div id="iframe"></div>
+            </main>
+        )
     }
     componentDidMount() {
         editor = ace.edit("editor");
@@ -141,6 +159,8 @@ class Editor extends React.Component {
         }
     }
 }
+
+const root = ReactDOM.createRoot(document.getElementById('app'))
 
 root.render(
     <div>
