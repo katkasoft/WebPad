@@ -1,0 +1,37 @@
+#editor {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+}
+
+header {
+    padding: 6px;
+}
+header *:not(hr) {
+    display: inline;
+}
+
+#toolbox {
+    padding: 5px;
+}
+#toolbox * {
+    display: inline;
+    margin-right: 5px;
+}
+#toolboxbuttons * {
+    color: white;
+    background-color: #3396d4;
+    border: 2px #3396d4 solid;
+    border-radius: 0;
+    padding: 1px;
+}
+#toolboxbuttons *:hover {
+    background-color: #48a5df;
+}
+
+#toolboxoptions * {
+    color: white;
+    padding: 1px;
+    background-color: #323232;
+    border: 2px #323232 solid;
+}

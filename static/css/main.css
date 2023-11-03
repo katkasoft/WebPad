@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #23232b;
+    color: white;
+    font-family: 'DejaVu Sans Mono', monospace;
+    overflow: hidden;
+}
+
+#center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+#center * {
+    margin-bottom: 15px;
+}
+
+.btn {
+    color: white;
+    background-color: #3396d4;
+    border: none;
+    padding: 7px;
+    font-size: large;
+}
+.btn:hover {
+    background-color: #48a5df;
+}
