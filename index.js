@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const sqlite = require("sqlite3").verbose()
 const db = new sqlite.Database('database.db')
-const PORT = 8080
+const PORT = 80
 const HOST = 'localhost'
 
 db.serialize(() => {

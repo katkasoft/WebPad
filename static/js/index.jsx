@@ -33,6 +33,41 @@ class Header extends React.Component {
         this.download = this.download.bind(this)
         this.changelang = this.changelang.bind(this)
         this.changetheme = this.changetheme.bind(this)
+        this.openview = this.openview.bind(this)
+        this.open = this.open.bind(this)
+        this.run = this.run.bind(this)
+    }
+    run() {
+        console.clear()
+        eval(editor.getValue())
+    }
+    open() {
+        var input = document.getElementById('file')
+        if (input.value) {
+            var fileToLoad = input.files[0]
+            var fileReader = new FileReader()
+            fileReader.onload = function(fileLoadedEvent){
+                var textFromFileLoaded = fileLoadedEvent.target.result
+                editor.insert(textFromFileLoaded)
+            }
+
+            fileReader.readAsText(fileToLoad, "UTF-8")
+            document.getElementById('window').style.display = 'none'
+        }
+    }
+    openview() {
+        const win = ReactDOM.createRoot(document.getElementById('window'))
+        win.render(
+            <div>
+                <button id="close" onClick={() => {document.getElementById('window').style.display = 'none'}}>x</button>
+                <div>
+                    <h1 id="windowtitle">Open a file</h1>
+                    <input type="file" name="file" id="file" />
+                    <button className="btn" onClick={this.open}>Open</button>
+                </div>
+            </div>
+        )
+        document.getElementById('window').style.display = 'block'
     }
     download() {
         var filename = prompt('Enter name of file (with extension)')
@@ -67,6 +102,7 @@ class Header extends React.Component {
         var lang = document.getElementById('lang').value
         var editorview = document.getElementById('editor')
         editor.session.setMode("ace/mode/" + lang);
+        var runbtn = document.getElementById('run') 
         if (lang == 'html') {
             const iframe = ReactDOM.createRoot(document.getElementById('iframe'))
             iframe.render(
@@ -76,7 +112,12 @@ class Header extends React.Component {
             setInterval(() => {
                 document.querySelector('iframe').srcdoc = editor.getValue()
             }, 1000)
+        } else if (lang == 'javascript') {
+            runbtn.style.display = 'inline'
+            document.querySelector('iframe').remove()
+            editorview.style.width = '100vw'
         } else {
+            runbtn.style.display = 'none'
             document.querySelector('iframe').remove()
             editorview.style.width = '100vw'
         }
@@ -89,7 +130,9 @@ class Header extends React.Component {
                 </header><hr />
                 <div id="toolbox">
                     <div id="toolboxbuttons">
-                        <button onClick={this.download}>Download</button>
+                        <button title="Ctrl+O" onClick={this.openview}>Open</button>
+                        <button title="Ctrl+S" onClick={this.download}>Download</button>
+                        <button title="Ctrl+R" id="run" onClick={this.run}>Run</button>
                     </div>
                     <div id="toolboxoptions">
                         <select id="lang" title="Select type of text" onChange={this.changelang}>
@@ -168,3 +211,19 @@ root.render(
         <Editor />
     </div>
 )
+
+document.onkeydown = (e) => {
+    var action = new Header() 
+    if (e.ctrlKey && e.key == 'o') {
+        action.openview()
+        return false
+    }
+    if (e.ctrlKey && e.key == 's') {
+        action.download()
+        return false
+    }
+    if (e.ctrlKey && e.key == 'r') {
+        action.run()
+        return false
+    }
+}
